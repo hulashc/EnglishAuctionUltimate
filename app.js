@@ -378,8 +378,8 @@ const createAuction = async () => {
         }
 
         const fromAddress = accounts[0];
-        const gasPrice = await web3.eth.getGasPrice();
-        const nonce = await web3.eth.getTransactionCount(fromAddress, 'latest');
+        const gasPrice = await ethereum.request({ method: 'eth_gasPrice' });
+        const nonce = await ethereum.request({ method: 'eth_getTransactionCount', params: [fromAddress, 'latest'] });
 
         const auctionFactoryContract = new web3.eth.Contract(AUCTION_FACTORY_ABI, AUCTION_FACTORY_ADDRESS);
         const transactionData = auctionFactoryContract.methods.createAuction(nftAddress, nftId, startingBid).encodeABI();
@@ -392,13 +392,10 @@ const createAuction = async () => {
             gas: web3.utils.toHex(300000), // Adjust gas limit as needed
         };
 
-        const tx = await ethereum.request({
-            method: 'eth_sendTransaction',
-            params: [txParams],
-        });
+        const txHash = await ethereum.request({ method: 'eth_sendTransaction', params: [txParams] });
 
         // Wait for the transaction to be mined
-        const receipt = await web3.eth.waitForTransactionReceipt(tx);
+        const receipt = await ethereum.request({ method: 'eth_getTransactionReceipt', params: [txHash] });
 
         // Display success message or update UI
         alert('Auction created successfully');
