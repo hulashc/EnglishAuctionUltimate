@@ -416,7 +416,7 @@ const createAuction = async () => {
 const exploreAuctions = async () => {
     try {
         const auctions = await auctionFactoryContract.methods.getAuctions().call();
-        
+
         const auctionsList = document.getElementById("auctions");
         auctionsList.innerHTML = '';
 
@@ -427,8 +427,6 @@ const exploreAuctions = async () => {
         });
     } catch (error) {
         console.error('Error exploring auctions:', error);
-        // Display error message or update UI with user-friendly error
-        alert('Error exploring auctions. Check the console for details.');
     }
 };
 
