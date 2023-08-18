@@ -453,3 +453,22 @@ const placeBid = async () => {
         // Display error message or update UI
     }
 };
+
+// Load available auctions
+const exploreAuctions = async () => {
+    try {
+        const auctions = await auctionFactoryContract.methods.getAuctions().call();
+
+        const auctionsList = document.getElementById("auctions");
+        auctionsList.innerHTML = '';
+
+        auctions.forEach(auctionAddress => {
+            const listItem = document.createElement("li");
+            listItem.textContent = auctionAddress;
+            auctionsList.appendChild(listItem);
+        });
+    } catch (error) {
+        console.error('Error exploring auctions:', error);
+        throw error;
+    }
+};
