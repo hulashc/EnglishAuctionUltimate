@@ -26,7 +26,6 @@
 
     <h2>Available Auctions</h2>
     <ul id="auctions"></ul>
-    <button onclick="exploreAuctions()">Explore Auctions</button> <!-- Explore Auctions button -->
 
     <h2>Place Bid</h2>
     <label for="auctionAddress">Auction Address:</label>
@@ -36,13 +35,16 @@
     <input type="number" id="bidAmount" placeholder="Enter Bid Amount">
     <br>
     <button onclick="placeBid()">Place Bid</button>
-    <button onclick="createAuction()">Create Auction</button>
-    <button onclick="exploreAuctions()">Explore Auctions</button> <!-- Add this line -->
 
-
+    <!-- Load available auctions when the page loads -->
     <script>
-        // Load available auctions when the page loads
-        window.addEventListener("load", exploreAuctions);
+        window.addEventListener("load", async () => {
+            try {
+                await exploreAuctions();
+            } catch (error) {
+                console.error('Error exploring auctions:', error);
+            }
+        });
     </script>
 </body>
 </html>
