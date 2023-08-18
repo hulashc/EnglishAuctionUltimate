@@ -372,9 +372,12 @@ const createAuction = async () => {
     const startingBid = parseInt(document.getElementById("startingBid").value);
 
     try {
+        const fromAddress = '0xeA94CC5544cFECCa14E900CF717dEAC223Aa41c4'; // Your Ethereum address
         const accounts = await web3.eth.getAccounts();
+        const auctionFactoryContract = new web3.eth.Contract(AUCTION_FACTORY_ABI, AUCTION_FACTORY_ADDRESS);
+
         await auctionFactoryContract.methods.createAuction(nftAddress, nftId, startingBid)
-            .send({ from: accounts[0] });
+            .send({ from: fromAddress });
 
         // Display success message or update UI
         alert('Auction created successfully');
