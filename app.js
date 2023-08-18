@@ -432,7 +432,7 @@ const exploreAuctions = async () => {
 
 // Load available auctions when the page loads
 window.addEventListener("load", () => {
-    exploreAuctions(); // Call the function here
+    exploreAuctions();
 });
 
 // Place bid on an auction
