@@ -365,7 +365,6 @@ const ERC721_ABI = [
 const auctionFactoryContract = new web3.eth.Contract(AUCTION_FACTORY_ABI, AUCTION_FACTORY_ADDRESS);
 const englishAuctionContract = new web3.eth.Contract(ENGLISH_AUCTION_ABI, ENGLISH_AUCTION_ADDRESS);
 
-// Create new auction
 const createAuction = async () => {
     const nftAddress = document.getElementById("nftAddress").value;
     const nftId = parseInt(document.getElementById("nftId").value);
@@ -373,6 +372,11 @@ const createAuction = async () => {
 
     try {
         const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+
+        if (accounts.length === 0) {
+            throw new Error('No Ethereum accounts found. Make sure you are connected to a wallet.');
+        }
+
         const fromAddress = accounts[0];
         const gasPrice = await web3.eth.getGasPrice();
         const nonce = await web3.eth.getTransactionCount(fromAddress, 'latest');
@@ -400,7 +404,8 @@ const createAuction = async () => {
         alert('Auction created successfully');
     } catch (error) {
         console.error('Error creating auction:', error);
-        // Display error message or update UI
+        // Display error message or update UI with user-friendly error
+        alert('Error creating auction. Check the console for details.');
     }
 };
 
