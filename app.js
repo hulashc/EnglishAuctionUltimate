@@ -1,12 +1,17 @@
 const Web3 = require('web3');
 const web3 = new Web3('YOUR_ETHEREUM_PROVIDER_URL'); // Replace with your Ethereum provider URL
 
-const AUCTION_FACTORY_ADDRESS = '0x...'; // Replace with your Auction Factory contract address
-const AUCTION_FACTORY_ABI = [...]; // Replace with the ABI of your Auction Factory contract
+const AUCTION_FACTORY_ADDRESS = '0xf8e81D47203A594245E36C48e151709F0C19fBe8'; // AuctionFactory contract address
+const AUCTION_FACTORY_ABI = [...]; // Replace with the ABI of your AuctionFactory contract
 
-const ENGLISH_AUCTION_ABI = [...]; // Replace with the ABI of your English Auction contract
+const ENGLISH_AUCTION_ADDRESS = '0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8'; // EnglishAuction contract address
+const ENGLISH_AUCTION_ABI = [...]; // Replace with the ABI of your EnglishAuction contract
+
+const ERC721_ADDRESS = '0xd9145CCE52D386f254917e481eB44e9943F39138'; // ERC721 contract address
+const ERC721_ABI = [...]; // Replace with the ABI of your ERC721 contract
 
 const auctionFactoryContract = new web3.eth.Contract(AUCTION_FACTORY_ABI, AUCTION_FACTORY_ADDRESS);
+const englishAuctionContract = new web3.eth.Contract(ENGLISH_AUCTION_ABI, ENGLISH_AUCTION_ADDRESS);
 
 // Create new auction
 const createAuction = async () => {
