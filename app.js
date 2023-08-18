@@ -365,32 +365,38 @@ const ERC721_ABI = [
 const auctionFactoryContract = new web3.eth.Contract(AUCTION_FACTORY_ABI, AUCTION_FACTORY_ADDRESS);
 const englishAuctionContract = new web3.eth.Contract(ENGLISH_AUCTION_ABI, ENGLISH_AUCTION_ADDRESS);
 
+const { ethers } = require('ethers');
+
+// Create new auction
 const createAuction = async () => {
     const nftAddress = document.getElementById("nftAddress").value;
     const nftId = parseInt(document.getElementById("nftId").value);
     const startingBid = parseInt(document.getElementById("startingBid").value);
 
     try {
-        const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+        // Connect to the Ethereum provider
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
 
-        if (accounts.length === 0) {
-            throw new Error('No Ethereum accounts found. Make sure you are connected to a wallet.');
-        }
+        // Get the signer (account) from the provider
+        const signer = provider.getSigner();
+        const fromAddress = await signer.getAddress();
 
-        const fromAddress = accounts[0];
-        const gasPrice = await ethereum.request({ method: 'eth_gasPrice' });
-        const nonce = await ethereum.request({ method: 'eth_getTransactionCount', params: [fromAddress, 'latest'] });
+        // Construct the transaction
+        const auctionFactoryContract = new ethers.Contract(AUCTION_FACTORY_ADDRESS, AUCTION_FACTORY_ABI, signer);
+        const transaction = await auctionFactoryContract.createAuction(nftAddress, nftId, startingBid);
 
-        const auctionFactoryContract = new web3.eth.Contract(AUCTION_FACTORY_ABI, AUCTION_FACTORY_ADDRESS);
-        const transactionData = auctionFactoryContract.methods.createAuction(nftAddress, nftId, startingBid).encodeABI();
+        // Send the transaction
+        const tx = await transaction.wait();
 
-        const txParams = {
-            nonce: nonce,
-            to: AUCTION_FACTORY_ADDRESS,
-            data: transactionData,
-            gasPrice: gasPrice,
-            gas: web3.utils.toHex(300000), // Adjust gas limit as needed
-        };
+        // Display success message or update UI
+        alert('Auction created successfully');
+    } catch (error) {
+        console.error('Error creating auction:', error);
+        // Display error message or update UI with user-friendly error
+        alert('Error creating auction. Check the console for details.');
+    }
+};
 
         const txHash = await ethereum.request({ method: 'eth_sendTransaction', params: [txParams] });
 
