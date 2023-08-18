@@ -1,5 +1,5 @@
 // Replace 'YOUR_ETHEREUM_PROVIDER_URL' with your Ethereum provider URL
-const web3 = new Web3('https://eth-mainnet.alchemyapi.io/v2/T4tcG13DHqYGsoM878VN240geCvLDRIY');
+const web3 = new Web3('https://eth-sepolia.g.alchemy.com/v2/T4tcG13DHqYGsoM878VN240geCvLDRIY');
 
 const AUCTION_FACTORY_ADDRESS = '0x4b2bEFBDA1A1b189b6E8298F0D4b6c154c2Fbb50';
 const AUCTION_FACTORY_ABI = [
