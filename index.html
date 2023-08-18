@@ -3,36 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auction DApp</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Auction App</title>
+    <!-- Include the web3.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <!-- Include your app.js script -->
+    <script src="app.js"></script>
 </head>
 <body>
-    <h1>Auction DApp</h1>
-    
-    <div id="createAuction">
-        <h2>Create New Auction</h2>
-        <label for="nftAddress">NFT Address:</label>
-        <input type="text" id="nftAddress">
-        <label for="nftId">NFT ID:</label>
-        <input type="number" id="nftId">
-        <label for="startingBid">Starting Bid:</label>
-        <input type="number" id="startingBid">
-        <button onclick="createAuction()">Create Auction</button>
-    </div>
+    <h1>Auction App</h1>
 
-    <div id="auctionList">
-        <h2>Available Auctions</h2>
-        <ul id="auctions"></ul>
-    </div>
+    <h2>Create New Auction</h2>
+    <label for="nftAddress">NFT Address:</label>
+    <input type="text" id="nftAddress" placeholder="Enter NFT Address">
+    <br>
+    <label for="nftId">NFT ID:</label>
+    <input type="number" id="nftId" placeholder="Enter NFT ID">
+    <br>
+    <label for="startingBid">Starting Bid:</label>
+    <input type="number" id="startingBid" placeholder="Enter Starting Bid">
+    <br>
+    <button onclick="createAuction()">Create Auction</button>
 
-    <div id="auctionDetails">
-        <h2>Auction Details</h2>
-        <p><strong>NFT Address:</strong> <span id="nftAddressDetails"></span></p>
-        <p><strong>NFT ID:</strong> <span id="nftIdDetails"></span></p>
-        <p><strong>Starting Bid:</strong> <span id="startingBidDetails"></span></p>
-        <button onclick="placeBid()">Place Bid</button>
-    </div>
+    <h2>Available Auctions</h2>
+    <ul id="auctions"></ul>
 
-    <script src="app.js"></script>
+    <h2>Place Bid</h2>
+    <label for="auctionAddress">Auction Address:</label>
+    <input type="text" id="auctionAddress" placeholder="Enter Auction Address">
+    <br>
+    <label for="bidAmount">Bid Amount:</label>
+    <input type="number" id="bidAmount" placeholder="Enter Bid Amount">
+    <br>
+    <button onclick="placeBid()">Place Bid</button>
+
+    <script>
+        // Load available auctions when the page loads
+        window.addEventListener("load", exploreAuctions);
+    </script>
 </body>
 </html>
