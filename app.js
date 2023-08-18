@@ -1,7 +1,7 @@
-const Web3 = require('web3');
-const web3 = new Web3('https://eth-mainnet.alchemyapi.io/v2/T4tcG13DHqYGsoM878VN240geCvLDRIY'); // Replace with your Ethereum provider URL
+// Replace 'YOUR_ETHEREUM_PROVIDER_URL' with your Ethereum provider URL
+const web3 = new Web3('https://eth-mainnet.alchemyapi.io/v2/T4tcG13DHqYGsoM878VN240geCvLDRIY');
 
-const AUCTION_FACTORY_ADDRESS = '0xf8e81D47203A594245E36C48e151709F0C19fBe8'; // AuctionFactory contract address
+const AUCTION_FACTORY_ADDRESS = '0xf8e81D47203A594245E36C48e151709F0C19fBe8';
 const AUCTION_FACTORY_ABI = [
 	{
 		"anonymous": false,
@@ -71,9 +71,9 @@ const AUCTION_FACTORY_ABI = [
 		"stateMutability": "view",
 		"type": "function"
 	}
-]; // Replace with the ABI of your AuctionFactory contract
+];
 
-const ENGLISH_AUCTION_ADDRESS = '0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8'; // EnglishAuction contract address
+const ENGLISH_AUCTION_ADDRESS = '0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8';
 const ENGLISH_AUCTION_ABI = [
 	{
 		"inputs": [
@@ -310,9 +310,9 @@ const ENGLISH_AUCTION_ABI = [
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-]; // Replace with the ABI of your EnglishAuction contract
+];
 
-const ERC721_ADDRESS = '0xd9145CCE52D386f254917e481eB44e9943F39138'; // ERC721 contract address
+const ERC721_ADDRESS = '0xd9145CCE52D386f254917e481eB44e9943F39138';
 const ERC721_ABI = [
 	{
 		"inputs": [
@@ -360,7 +360,7 @@ const ERC721_ABI = [
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-]; // Replace with the ABI of your ERC721 contract
+];
 
 const auctionFactoryContract = new web3.eth.Contract(AUCTION_FACTORY_ABI, AUCTION_FACTORY_ADDRESS);
 const englishAuctionContract = new web3.eth.Contract(ENGLISH_AUCTION_ABI, ENGLISH_AUCTION_ADDRESS);
@@ -403,7 +403,8 @@ const exploreAuctions = async () => {
 };
 
 // Place bid on an auction
-const placeBid = async (auctionAddress) => {
+const placeBid = async () => {
+    const auctionAddress = document.getElementById("auctionAddress").value;
     const bidAmount = parseInt(document.getElementById("bidAmount").value);
 
     try {
@@ -419,6 +420,3 @@ const placeBid = async (auctionAddress) => {
         // Display error message or update UI
     }
 };
-
-// Load available auctions when the page loads
-window.addEventListener("load", exploreAuctions);
