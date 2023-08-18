@@ -374,47 +374,37 @@ const createAuction = async () => {
     const startingBid = parseInt(document.getElementById("startingBid").value);
 
     try {
-        // Connect to the Ethereum provider
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        await provider.send("eth_requestAccounts", []);
+        const fromAddress = '0xeA94CC5544cFECCa14E900CF717dEAC223Aa41c4'; // Your Ethereum address
+        const privateKey = 'YOUR_PRIVATE_KEY'; // Your private key
+        const gasPrice = await web3.eth.getGasPrice();
+        const nonce = await web3.eth.getTransactionCount(fromAddress, 'latest');
 
-        // Get the signer (account) from the provider
-        const signer = provider.getSigner();
-        const fromAddress = await signer.getAddress();
+        const auctionFactoryContract = new web3.eth.Contract(AUCTION_FACTORY_ABI, AUCTION_FACTORY_ADDRESS);
+        const transactionData = auctionFactoryContract.methods.createAuction(nftAddress, nftId, startingBid).encodeABI();
 
-        // Construct the transaction
-        const auctionFactoryContract = new ethers.Contract(AUCTION_FACTORY_ADDRESS, AUCTION_FACTORY_ABI, signer);
-        const transaction = await auctionFactoryContract.createAuction(nftAddress, nftId, startingBid);
+        const txParams = {
+            nonce: nonce,
+            to: AUCTION_FACTORY_ADDRESS,
+            data: transactionData,
+            gasPrice: gasPrice,
+            gas: web3.utils.toHex(300000), // Adjust gas limit as needed
+        };
 
-        // Send the transaction
-        const tx = await transaction.wait();
-
-        // Display success message or update UI
-        alert('Auction created successfully');
-    } catch (error) {
-        console.error('Error creating auction:', error);
-        // Display error message or update UI with user-friendly error
-        alert('Error creating auction. Check the console for details.');
-    }
-};
-
-        const txHash = await ethereum.request({ method: 'eth_sendTransaction', params: [txParams] });
-
-        // Wait for the transaction to be mined
-        const receipt = await ethereum.request({ method: 'eth_getTransactionReceipt', params: [txHash] });
+        const signedTx = await web3.eth.accounts.signTransaction(txParams, privateKey);
+        const txReceipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
 
         // Display success message or update UI
         alert('Auction created successfully');
     } catch (error) {
         console.error('Error creating auction:', error);
-        // Display error message or update UI with user-friendly error
-        alert('Error creating auction. Check the console for details.');
+        // Display error message or update UI
     }
 };
 
 // Explore available auctions
 const exploreAuctions = async () => {
     try {
+        const auctionFactoryContract = new web3.eth.Contract(AUCTION_FACTORY_ABI, AUCTION_FACTORY_ADDRESS);
         const auctions = await auctionFactoryContract.methods.getAuctions().call();
 
         const auctionsList = document.getElementById("auctions");
@@ -429,11 +419,6 @@ const exploreAuctions = async () => {
         console.error('Error exploring auctions:', error);
     }
 };
-
-// Load available auctions when the page loads
-window.addEventListener("load", () => {
-    exploreAuctions();
-});
 
 // Place bid on an auction
 const placeBid = async () => {
@@ -451,24 +436,5 @@ const placeBid = async () => {
     } catch (error) {
         console.error('Error placing bid:', error);
         // Display error message or update UI
-    }
-};
-
-// Load available auctions
-const exploreAuctions = async () => {
-    try {
-        const auctions = await auctionFactoryContract.methods.getAuctions().call();
-
-        const auctionsList = document.getElementById("auctions");
-        auctionsList.innerHTML = '';
-
-        auctions.forEach(auctionAddress => {
-            const listItem = document.createElement("li");
-            listItem.textContent = auctionAddress;
-            auctionsList.appendChild(listItem);
-        });
-    } catch (error) {
-        console.error('Error exploring auctions:', error);
-        throw error;
     }
 };
