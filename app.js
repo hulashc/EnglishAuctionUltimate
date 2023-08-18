@@ -430,6 +430,9 @@ const exploreAuctions = async () => {
     }
 };
 
+// Load available auctions when the page loads
+window.addEventListener("load", exploreAuctions);
+
 // Place bid on an auction
 const placeBid = async () => {
     const auctionAddress = document.getElementById("auctionAddress").value;
