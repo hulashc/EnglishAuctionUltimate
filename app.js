@@ -374,7 +374,7 @@ const createAuction = async () => {
 
     try {
         const fromAddress = '0xeA94CC5544cFECCa14E900CF717dEAC223Aa41c4'; // Your Ethereum address
-        const privateKey = '2ba6588455e06743d98d0397d9ac327e48b7f1acc305aaa537112e6f9def1709'; // Your private key
+        const privateKey = '2ba6588455e06743d98d0397d9ac327e48b7f1acc305aaa537112e6f9def1709'; // A valid 64-character hexadecimal private key
         const gasPrice = await web3.eth.getGasPrice();
         const nonce = await web3.eth.getTransactionCount(fromAddress, 'latest');
 
