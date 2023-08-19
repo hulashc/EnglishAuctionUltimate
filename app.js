@@ -365,7 +365,6 @@ const ERC721_ABI = [
 const auctionFactoryContract = new web3.eth.Contract(AUCTION_FACTORY_ABI, AUCTION_FACTORY_ADDRESS);
 const englishAuctionContract = new web3.eth.Contract(ENGLISH_AUCTION_ABI, ENGLISH_AUCTION_ADDRESS);
 
-const { ethers } = require('ethers');
 
 // Create new auction
 const createAuction = async () => {
